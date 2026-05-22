@@ -17,7 +17,7 @@ public class LoginPageTest {
     By loginLink = By.xpath("//a[contains(@title,'Jobseeker Login')]");
     By email = By.id("usernameField");
     By password = By.id("passwordField");
-    By loginButton = By.xpath("///button[@type=\"submit\"]");
+    By loginButton = By.xpath("//button[@type=\"submit\"]");
 
     public void clickLoginLink() {
         driver.findElement(loginLink).click();
