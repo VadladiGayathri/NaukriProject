@@ -1,27 +1,33 @@
 package hooks;
 
+import base.BaseTest;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
-import org.openqa.selenium.*;
-        import utils.DriverFactory;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
-public class Hooks {
+import java.io.File;
+import java.io.IOException;
+
+public class Hooks extends BaseTest {
 
     @After
-    public void takeScreenshot(Scenario scenario) {
+    public void takeScreenshot(Scenario scenario) throws IOException {
 
-        WebDriver driver = DriverFactory.getDriver();
+        System.out.println("HOOK EXECUTED");
 
         if (scenario.isFailed()) {
 
-            byte[] screenshot = ((TakesScreenshot) driver)
-                    .getScreenshotAs(OutputType.BYTES);
+            File src = ((TakesScreenshot) driver)
+                    .getScreenshotAs(OutputType.FILE);
 
-            scenario.attach(screenshot,
-                    "image/png",
-                    "Failure Screenshot");
+            File dest = new File(
+                    "screenshots/" + scenario.getName() + ".png");
+
+            FileUtils.copyFile(src, dest);
+
+            System.out.println("Screenshot saved");
         }
-
-        driver.quit();
     }
 }
